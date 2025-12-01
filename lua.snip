@@ -1,0 +1,233 @@
+snippet vim-print
+alias vp
+alias pp
+abbr vim print
+  vim.print(${1})
+
+
+snippet module-create
+alias Mlo
+abbr module create
+  local M = {}
+
+  function M${1:fnName}($2)
+    $3
+  end
+
+  return M
+
+
+snippet module-fn
+alias Mfn
+abbr module function
+  M.${1:fnName} = function($2)
+    $3
+  end
+
+  $0
+
+
+snippet require
+alias req
+abbr require module
+  local ${1:module} = require('${2:module_name}')
+  $0
+
+
+snippet pcall
+abbr protected call
+  local ok, ${1:result} = pcall(${2:func})
+  if not ok then
+    ${3:-- handle error}
+  end
+  $0
+
+
+snippet func
+alias fn
+abbr function
+  function ${1:name}(${2})
+    ${3}
+  end
+  $0
+
+
+snippet local-func
+alias lf
+abbr local function
+  local function ${1:name}(${2})
+    ${3}
+  end
+  $0
+
+
+snippet if
+abbr if statement
+  if ${1:condition} then
+    ${2}
+  end
+  $0
+
+
+snippet ife
+abbr if else
+  if ${1:condition} then
+    ${2}
+  else
+    ${3}
+  end
+  $0
+
+
+snippet for-i
+alias fori
+abbr for i = 1, n
+  for ${1:i} = ${2:1}, ${3:10} do
+    ${4}
+  end
+  $0
+
+
+snippet for-pairs
+alias forp
+abbr for k, v in pairs
+  for ${1:key}, ${2:value} in pairs(${3:table}) do
+    ${4}
+  end
+  $0
+
+
+snippet for-ipairs
+alias fori
+abbr for i, v in ipairs
+  for ${1:i}, ${2:value} in ipairs(${3:table}) do
+    ${4}
+  end
+  $0
+
+
+snippet table
+alias tbl
+abbr table definition
+  local ${1:name} = {
+    ${2}
+  }
+  $0
+
+
+snippet class
+abbr class-like table
+  local ${1:ClassName} = {}
+  ${1:ClassName}.__index = ${1:ClassName}
+
+  function ${1:ClassName}.new(${2})
+    local self = setmetatable({}, ${1:ClassName})
+    ${3}
+    return self
+  end
+
+  function ${1:ClassName}:${4:method}(${5})
+    ${6}
+  end
+
+  return ${1:ClassName}
+
+
+snippet method
+alias meth
+abbr method definition
+  function ${1:Class}:${2:method}(${3})
+    ${4}
+  end
+  $0
+
+
+snippet autocmd
+abbr nvim autocmd
+  vim.api.nvim_create_autocmd('${1:Event}', {
+    pattern = '${2:*}',
+    callback = function()
+      ${3}
+    end,
+  })
+  $0
+
+
+snippet keymap
+alias map
+abbr vim keymap
+  vim.keymap.set('${1:n}', '${2:key}', ${3:action}, { desc = '${4:description}' })
+  $0
+
+
+snippet cmd
+abbr user command
+  vim.api.nvim_create_user_command('${1:CommandName}', function(${2:opts})
+    ${3}
+  end, { ${4:nargs = 0} })
+  $0
+
+
+snippet augroup
+abbr autocmd group
+  local ${1:group} = vim.api.nvim_create_augroup('${2:GroupName}', { clear = true })
+  vim.api.nvim_create_autocmd('${3:Event}', {
+    group = ${1:group},
+    pattern = '${4:*}',
+    callback = function()
+      ${5}
+    end,
+  })
+  $0
+
+
+snippet hl
+abbr set highlight
+  vim.api.nvim_set_hl(0, '${1:HighlightGroup}', { ${2:fg = '#ffffff'} })
+  $0
+
+
+snippet notify
+abbr vim notify
+  vim.notify('${1:message}', vim.log.levels.${2:INFO})
+  $0
+
+
+snippet schedule
+abbr vim schedule
+  vim.schedule(function()
+    ${1}
+  end)
+  $0
+
+
+snippet defer
+abbr vim defer_fn
+  vim.defer_fn(function()
+    ${1}
+  end, ${2:1000})
+  $0
+
+
+snippet tinsert
+alias ti
+abbr table.insert
+  table.insert(${1:table}, ${2:value})
+  $0
+
+
+snippet tconcat
+alias tc
+abbr table.concat
+  table.concat(${1:table}, '${2:separator}')
+  $0
+
+
+snippet protected-require
+alias preq
+abbr protected require
+  local ok, ${1:module} = pcall(require, '${2:module_name}')
+  if not ok then
+    return
+  end
+  $0

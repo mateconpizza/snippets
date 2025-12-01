@@ -1,0 +1,365 @@
+snippet bang
+alias sh
+abbr shebang
+  #!/usr/bin/env bash
+
+  $0
+
+
+snippet func
+alias fn
+abbr function
+  function ${1:fnName} {
+    $2
+  }
+
+
+snippet main
+alias shmain
+abbr main function
+  function main {
+    $1
+  }
+
+  main "\$@"
+
+
+snippet deps
+abbr scripts deps
+  DEPS=($1)
+
+
+snippet prog
+abbr prog name
+  PROG="\${0##*/}"
+
+
+snippet local
+alias lo
+abbr local var
+  local $1=$2
+
+
+snippet logerr
+alias shlogerr
+abbr log err with program name
+  function _logerr {
+    printf '%s: %s\\n' "\${PROG:-err}" "\$*" >&2
+    exit 1
+  }
+
+  $0
+
+
+snippet logme
+alias shlogme
+abbr log msg with program name
+  function _logme {
+    printf '%s: %s\\n' "\$PROG" "\$1"
+  }
+
+  $0
+
+
+snippet usage
+alias shusage
+abbr help function
+  function _usage {
+    cat <<-_EOF
+  Usage: \${PROG} [options]
+
+    ${1:description}
+
+  Options:
+    $2
+    -h, --help	show this help message and exit
+  _EOF
+  }
+
+  $0
+
+
+snippet loggers
+alias shloggers
+abbr logger functions
+  function _logerr {
+    printf '%s: %s\\n' "\${PROG:-err}" "\$*" >&2
+    exit 1
+  }
+
+  function _logme {
+    printf '%s: %s\\n' "\${PROG:-info}" "\$1"
+  }
+
+  $0
+
+
+snippet has
+alias shhas
+abbr checks if commands exist
+  function _has {
+    local c
+    local verbose=false
+    if [[ \$1 == '-v' ]]; then
+      verbose=true
+      shift
+    fi
+    for c in "\$@"; do
+      c="\${c%% *}"
+      if ! command -v "\$c" &>/dev/null; then
+        [[ "\$verbose" == true ]] && _logerr "\$c dependency not found"
+        return 1
+      fi
+    done
+  }
+
+
+snippet in_terminal
+alias shin_terminal
+abbr checks if running in terminal
+  function _in_terminal {
+    if [[ -t 0 ]]; then
+      return 0
+    fi
+    return 1
+  }
+
+  $0
+
+
+snippet is_tty
+alias shistty
+abbr checks if terminal is a TTY device
+  function _istty {
+    if [[ "\$(tty)" =~ ^/dev/tty[0-9]+\$ ]]; then
+      return 0
+    fi
+
+    return 1
+  }
+
+  $0
+
+
+snippet notifyme
+alias shnotifyme
+abbr sends notification
+  function _notifyme {
+    local prog="\${PROG:-\${0##*/}}"
+    local mesg="<b>\$1</b>"
+    local icon="\${2:-dialog-information}"
+    notify-send -i "\$icon" "\${prog^^}" "\$mesg"
+  }
+
+  $0
+
+
+snippet is_available
+alias shis_available
+abbr checks if target is in array
+  function _is_available {
+    local target=\$1
+    shift
+    local arr=("\$@")
+
+    for item in "\${arr[@]}"; do
+      if [[ "\$item" == "\$target" ]]; then
+        return 0
+      fi
+    done
+
+    return 1
+  }
+
+  $0
+
+snippet prelude
+  #!/usr/bin/env -S -- bash -Eeu -o pipefail -O dotglob -O nullglob -O extglob -O failglob -O globstar
+
+  set -o pipefail
+
+  cd -- "\${0%/*}"
+
+  $0
+
+
+snippet nofail
+  shopt -u failglob
+
+
+snippet shopt
+  set -Eeuo pipefail
+  shopt -s -- dotglob nullglob extglob failglob globstar
+
+  $0
+
+
+snippet parse
+abbr argparse
+  OPTS=''
+  LONG_OPTS=''
+  GO="\$(getopt --options="\$OPTS" --longoptions="\$LONG_OPTS" --name="\$0" -- "\$@")"
+  eval -- set -- "\$GO"
+
+  while ((\$#)); do
+    case "\$1" in
+    --)
+      shift -- 1
+      break
+      ;;
+    *)
+      exit 1
+      ;;
+    esac
+  done
+
+  $0
+
+
+snippet cd
+  cd -- "\${0%/*}"
+  $0
+
+
+snippet which
+  command -v -- ${1:command}
+
+
+snippet failglob
+  shopt -s failglob globstar
+
+  $0
+
+
+snippet nullglob
+  shopt -s nullglob globstar
+
+  $0
+
+
+snippet lc
+  export -- LANG=C LC_ALL=C
+
+  $0
+
+
+snippet trap
+  cleanup() {
+    ${0:pkill -P \$\$}
+  }
+
+  trap -- cleanup EXIT
+
+
+snippet shellcheck-disable
+alias sc
+alias disable
+  # shellcheck disable=${0:0000}
+
+
+snippet println
+alias pl
+  printf -- '%s\\n' $0
+
+
+snippet join
+  printf -v ${1:VAR} -- '%q ' $0
+
+
+snippet stderr
+  >&2
+
+
+snippet stdout
+  2>&1
+
+
+snippet readarray
+alias ra
+abbr readarray <<<
+  readarray -t -d '' -- ${2:ARRAY} <<<"${1:VAR}"
+  $0
+
+
+snippet readline
+alias ra
+abbr read -r -d ''
+  read -r -d '' -- ${1:VAR}
+  $0
+
+
+snippet array
+  ${1:ARRAY}=(
+    ${2:item}
+  )
+  $0
+
+
+snippet map
+  declare -A -- ${1:MAP}=()
+  $0
+
+
+snippet for
+  for ${1:var} in "\${${2:ARRAY}[@]}"
+  do
+    ${0:...}
+  done
+
+
+snippet heredoc
+alias hd
+  read -r -d '' -- ${1:VARIABLE} <<- '${1:${EOF/.*/${0:/upcase}/s}}' || true
+  ${0:...}
+  ${1:EOF}
+
+
+snippet tee
+  tee <<-EOF
+    ${0:...}
+  EOF
+
+
+snippet lstrip
+  "\${${1:VARIABLE}#'${2:GLOB}'}"
+
+
+snippet rstrip
+  "\${${1:VARIABLE}%'${2:GLOB}'}"
+
+
+snippet tr
+  "\${${1:VARIABLE}//'${2:GLOB}'/'${3:REPLACE}'}"
+
+
+snippet upper
+  "\${${0:path}^^/}"
+
+
+snippet lower
+  "\${${0:path},,}"
+
+
+snippet ifs
+  IFS=\$'${1:\\n}'
+  $0
+  unset -- IFS
+
+
+snippet dirname
+  "\${${0:path}%/*}"
+
+
+snippet basename
+  "\${${0:path}##*/}"
+
+
+snippet perl
+  perl -CASD -wpe $0
+
+
+snippet watch
+  watchexec --shell none --restart -- $0
+
+snippet timeout
+  perl -w -e 'alarm shift; (exec @ARGV) || die' -- ${0:TIMEOUT}

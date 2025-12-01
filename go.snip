@@ -1,0 +1,83 @@
+snippet prelude
+  // ; exec go run "\$0" "\$@"
+  package main
+
+  import (
+    "fmt"
+    "log"
+    "os"
+    "path/filepath"
+  )
+
+  func init() {
+    log.SetFlags(log.Lshortfile)
+  }
+
+  func main() {
+    self, err := os.Executable()
+    if err != nil {
+      log.Panicln(err)
+    }
+    dir := filepath.Dir(self)
+    if err := os.Chdir(dir); err != nil {
+      log.Panicln(err)
+    }
+    fmt.Println(self)
+
+    $0
+  }
+
+
+snippet bug
+  fmt.Printf("%#v\\n", $0)
+
+
+snippet testm
+  func TestMain(m *testing.M) {
+    code := m.Run()
+    $0
+    os.Exit(code)
+  }
+
+
+snippet unwind
+  defer func() {
+    if r := recover(); r != nil {
+      $0
+    }
+  }()
+
+
+snippet pt
+  func Test_${1:1}(t *testing.T) {
+    t.Parallel()
+    $0
+  }
+
+
+snippet bugtype
+  fmt.Println(reflect.TypeOf($0))
+
+
+snippet if-err-assign
+alias irl
+abbr if err := ...; err != nil
+  if err := ${1}; err != nil {
+    return err
+  }
+
+
+snippet if-err-wrap
+alias irr
+abbr if err != nil with fmt.Errorf
+  if err != nil {
+    return ${1:err}
+  }
+
+
+snippet if-err-wrap
+alias irw
+abbr if err != nil with fmt.Errorf
+  if err != nil {
+    return fmt.Errorf("%w", ${1:err})
+  }
