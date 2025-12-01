@@ -4,6 +4,7 @@ alias pp
 abbr vim print
   vim.print(${1})
 
+
 snippet print
 alias debug
 abbr print inspect
@@ -32,11 +33,10 @@ abbr module function
   $0
 
 
-snippet require
+snippet require-mod
 alias req
 abbr require module
-  local ${1:module} = require('${2:module_name}')
-  $0
+  require('${1:mod}')
 
 
 snippet pcall
@@ -236,3 +236,520 @@ abbr protected require
     return
   end
   $2
+
+
+snippet locreq
+alias lreq
+abbr require module as variable
+  local ${1:var} = require(${2:module})
+
+
+snippet foreach
+alias foreach
+abbr for loop with pairs
+  for i, ${1:x} in pairs(${2:table}) do
+    $0
+  end
+
+
+snippet lazyplug
+abbr add plugin
+  { 
+    '${1}',
+    enabled = true,
+    opts = {},
+  }
+
+
+snippet forp
+alias pairloop
+abbr for loop with key-value pairs
+  for ${1:name},${2:val} in pairs(${3:table_name}) do
+    $0
+  end
+
+
+snippet numeric-for
+alias for
+alias fori
+abbr numeric for loop
+  for ${2:i} = 0, ${1:#:Things} do
+    ${0:TARGET}
+  end
+
+
+snippet write
+alias wr
+alias iowrite
+abbr io.write
+  io.write($0)
+
+
+snippet while-loop
+alias while
+abbr while loop
+  while $1 do
+    $0
+  end
+
+
+snippet print-string
+alias prs
+abbr print string
+  print("${1:string}")
+
+
+snippet function-def
+alias func
+alias fu
+abbr function definition
+  function ${1:#:function_name}(${2:#:argument})
+    ${0:TARGET}
+  end
+
+
+snippet forline
+alias file-read
+abbr read file line by line
+  local f = io.open(${1:${2:filename}}, "${3:r}")
+
+  while true do
+    line = f:read()
+    if line == nil then break end
+
+    ${0}
+  end
+
+
+snippet pcall-func
+alias pca
+abbr protected function call
+  pcall(${1:function})
+
+
+snippet if-stmt
+alias if
+abbr if statement
+  if $1 then
+    $0
+  end
+
+
+snippet local-var
+alias l
+abbr local variable
+  local ${0}
+
+
+snippet for-ipairs
+alias fori
+abbr for loop with ipairs
+  for ${1:i},${2:v} in ipairs(${3:table_name}) do
+    $0
+  end
+
+
+snippet elseif-stmt
+alias elif
+abbr elseif statement
+  elseif $1 then
+    $0
+
+
+snippet if-else
+alias ife
+abbr if/else statement
+  if $1 then
+    $2
+  else
+    $0
+  end
+
+
+snippet if-short
+alias ifs
+abbr short if statement
+  if $1 then
+    $2
+  end
+
+
+snippet numeric-loop
+alias fornum
+abbr numeric for loop
+  for ${1:i}=${2:1},${3:10} do
+    ${0:print(i)}
+  end
+
+
+snippet pairs-loop
+alias forpair
+abbr for loop with pairs
+  for ${1:i},${2:v} in pairs(${3:table_name}) do
+    $0
+  end
+
+
+snippet do-block
+alias do
+abbr do block
+  do
+    $0
+  end
+
+
+snippet write-string
+alias wrs
+abbr io.write string
+  io.write("$0")
+
+
+snippet if-elseif-else
+alias eife
+abbr if/elseif/else statement
+  if $1 then
+    $2
+  elseif $3 then
+    $4
+  else
+    $0
+  end
+
+
+snippet print-table
+alias printable
+abbr print table contents
+  for k, v in ipairs(${1:table}) do
+    print(k, v)
+  end
+
+
+snippet elseif
+alias eif
+abbr elseif with condition
+  elseif ${1:true} then
+    $0
+
+
+snippet shebang
+alias #!
+abbr Lua shebang
+  #!/usr/bin/env lua
+  $0
+
+
+snippet for-range
+alias forr
+abbr for loop range
+  for ${1:i}=${2:1},${3:10} do
+    $0
+  end
+
+
+snippet file-write
+alias fwr
+abbr file descriptor write
+  io.${1:stderr}:write($0)
+
+
+snippet print-string-short
+alias prss
+abbr print short string
+  print("$0")
+
+
+snippet for-ipairs-full
+alias forip
+abbr ipair for loop
+  for ${1:idx},${2:val} in ipairs(${3:table_name}) do
+    $0
+  end
+
+
+snippet format-write
+alias fwrf
+abbr formatted file write
+  io.${1:stderr}:write(string.format("${2:%s}"$0))
+
+
+snippet while-true
+alias wh
+abbr while true loop
+  while ${1:true} do
+    ${0}
+  end
+
+
+snippet local-assign
+alias ll
+abbr local assignment
+  local ${1:varName} = ${0:value}
+
+
+snippet function-name
+alias fun
+abbr named function
+  function ${1:name}($2)
+    ${0}
+  end
+
+
+snippet while-cond
+alias whilec
+abbr while with condition
+  while ${1:true} do
+    $0
+  end
+
+
+snippet if-cond
+alias ifc
+abbr if with condition
+  if ${1:true} then
+    $0
+  end
+
+
+snippet setup-func
+alias setup
+abbr setup function
+  setup(function()
+    ${0:TARGET}
+  end)
+
+
+snippet new-function
+alias nfun
+abbr new function
+  function ${1:new_function}(${2:args})
+    $0
+  end
+
+
+snippet local-pcall
+alias lpca
+abbr local protected call
+  local ${1:status}, ${2:err_or_value} = pcall(${3:function})
+
+
+snippet if-elseif
+alias eifc
+abbr if/elseif statement
+  if $1 then
+    $2
+  elseif $3 then
+    $0
+  end
+
+
+snippet function-varargs
+alias funv
+abbr function with varargs
+  function ${1:fname}(${2:...})
+    $0
+  end
+
+
+snippet local-num
+alias localnum
+abbr local number assignment
+  local ${1:x} = ${0:1}
+
+
+snippet format-io-write
+alias wrf
+abbr formatted io.write
+  io.write(string.format("${1:%s}"$0))
+
+
+snippet file-write-string
+alias fwrs
+abbr file descriptor write string
+  io.${1:stderr}:write("$0")
+
+
+snippet print-target
+alias pt
+abbr print TARGET
+  P(${0:TARGET})
+
+
+snippet format-print
+alias prf
+abbr formatted print
+  print(string.format("${1:%s}"$0))
+
+
+snippet after-each
+alias aftereach
+abbr after_each function
+  after_each(function()
+    ${0:TARGET}
+  end)
+
+
+snippet repeat-loop
+alias repeat
+abbr repeat loop
+  repeat
+    $1
+  until $0
+
+
+snippet for-in
+alias forin
+abbr for...in loop
+  for ${2:k}, ${3:v} in ${1:ipairs(xs)} do
+    ${0:TARGET}
+  end
+
+
+snippet long-comment
+alias comment
+alias lc
+abbr long comment block
+  [[${0:TARGET}]]
+
+
+snippet while-true-short
+alias wht
+abbr while true short
+  while true do
+    ${0}
+  end
+
+
+snippet while-short
+alias whs
+abbr while short
+  while $1 do
+    $0
+  end
+
+
+snippet if-else-block
+alias ifeb
+abbr if/else with comments
+  if $1 then
+    ${2:-- if condition}
+  else
+    ${0:-- else}
+  end
+
+
+snippet pcall-handler
+alias pcallh
+abbr pcall with error handling
+  local ok, err = pcall(${1:your_function})
+  if not ok then
+    handler(${2:ok, err})
+  ${3:else
+    success(${4:ok, err})
+  }end
+
+
+snippet if-cond-comment
+alias ifcc
+abbr if with condition comment
+  if ${1:#:condition} then
+    ${0:TARGET}
+  end
+
+
+snippet class-def
+alias cl
+abbr class definition
+  ${1:M} = {}
+
+  $1.${2:new} = function($3)
+    ${6}
+  end
+
+
+snippet before-each
+alias beforeeach
+abbr before_each function
+  before_each(function()
+    ${0:TARGET}
+  end)
+
+
+snippet finally
+alias finally
+abbr finally function
+  finally(function()
+    ${0:TARGET}
+  end)
+
+
+snippet return-stmt
+alias rt
+abbr return statement
+  return $0
+
+
+snippet tear-down
+alias teardown
+abbr tear_down function
+  tear_down(function()
+    ${0:TARGET}
+  end)
+
+
+snippet print-var
+alias prv
+abbr print variable
+  print($0)
+
+
+snippet self-method
+alias self:
+abbr self method
+  function self:${1:methodName}($2)
+    $0
+  end
+
+
+snippet describe
+alias describe
+abbr describe function
+  describe(${1:#:message}, function()
+    ${0:TARGET}
+  end)
+
+
+snippet local-assign-num
+alias localn
+abbr local number
+  local ${1:x} = ${0:1}
+
+
+snippet it-test
+alias it
+abbr it test function
+  it(${1:#:message}, function()
+    ${0:TARGET}
+  end)
+
+
+snippet repeat-loop-long
+alias repeatl
+abbr repeat loop long
+  repeat
+    $1
+  until $0
+
+
+snippet shebang-short
+alias #!s
+abbr short shebang
+  #!/usr/bin/env lua
+  $1
+
+
+snippet inline-function
+alias f=
+abbr local function
+  local ${1:name} = function($2)
+    ${0}
+  end
