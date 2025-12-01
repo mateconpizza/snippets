@@ -1,10 +1,18 @@
 snippet bang
 alias sh
+alias #!
 abbr shebang
   #!/usr/bin/env bash
 
   $0
 
+snippet shebang-strict
+alias s#!
+abbr shebang with set -eu
+  #!/usr/bin/env bash
+  set -eu
+
+  $0
 
 snippet func
 alias fn
@@ -361,5 +369,34 @@ snippet perl
 snippet watch
   watchexec --shell none --restart -- $0
 
+
 snippet timeout
   perl -w -e 'alarm shift; (exec @ARGV) || die' -- ${0:TIMEOUT}
+
+
+snippet while
+alias wh
+abbr while loop
+  while [[ \$1 ]]; do
+    $0
+  done
+
+
+snippet elif
+abbr elif statement
+  elif [[ \$1 ]]; then
+    $0
+
+
+snippet if
+abbr if statement
+  if [[ \$1 ]]; then
+    $0
+  fi
+
+
+snippet until
+abbr until loop
+  until [[ \$1 ]]; do
+    $0
+  done
