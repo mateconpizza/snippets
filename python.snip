@@ -1,0 +1,596 @@
+snippet dataclass
+alias dc
+  @dataclass(frozen=True)
+  class ${1:Classname}:
+      ${2:prop}: ${0:type}
+
+
+snippet enum
+  @unique
+  class ${1:Classname}(Enum):
+      ${2:member} = ${0:auto()}
+
+
+snippet prelude
+  #!/usr/bin/env -S -- PYTHONSAFEPATH= python3
+
+  $0
+
+
+snippet ignore
+  # type: ignore
+
+
+snippet stack
+  __import__("inspect").stack()
+
+
+snippet import
+alias imp
+abbr import module
+  import ${1:module}
+  $0
+
+
+snippet from
+alias fr
+abbr from import
+  from ${1:module} import ${2:name}
+  $0
+
+
+snippet class
+alias cl
+abbr class definition
+  class ${1:ClassName}:
+    def __init__(self${2:, args}):
+        ${3:pass}
+    $0
+
+
+snippet def
+alias fn
+abbr function definition
+  def ${1:name}(${2}):
+    ${3:pass}
+    $0
+
+
+snippet defs
+abbr function with docstring
+  def ${1:name}(${2}):
+    """${3:docstring}"""
+    ${4:pass}
+    $0
+
+
+snippet init
+abbr __init__ method
+  def __init__(self${1:, args}):
+    ${2:pass}
+    $0
+
+
+snippet main
+abbr if __name__ == '__main__'
+  if __name__ == '__main__':
+    ${1:main()}
+    $0
+
+
+snippet for
+abbr for loop
+  for ${1:item} in ${2:iterable}:
+    ${3:pass}
+    $0
+
+
+snippet fori
+abbr for enumerate
+  for ${1:i}, ${2:item} in enumerate(${3:iterable}):
+    ${4:pass}
+    $0
+
+
+snippet if
+abbr if statement
+  if ${1:condition}:
+    ${2:pass}
+    $0
+
+
+snippet ife
+abbr if else
+  if ${1:condition}:
+    ${2:pass}
+  else:
+    ${3:pass}
+    $0
+
+
+snippet elif
+abbr elif statement
+  elif ${1:condition}:
+    ${2:pass}
+    $0
+
+
+snippet try
+abbr try except
+  try:
+    ${1:pass}
+  except ${2:Exception} as ${3:e}:
+    ${4:pass}
+    $0
+
+
+snippet tryf
+abbr try except finally
+  try:
+    ${1:pass}
+  except ${2:Exception} as ${3:e}:
+    ${4:pass}
+  finally:
+    ${5:pass}
+    $0
+
+
+snippet with
+abbr with statement
+  with ${1:open('file')} as ${2:f}:
+    ${3:pass}
+    $0
+
+
+snippet lambda
+alias lam
+abbr lambda function
+  lambda ${1:x}: ${2:x}
+
+
+snippet list-comp
+alias lc
+abbr list comprehension
+  [${1:x} for ${1:x} in ${2:iterable} if ${3:condition}]
+
+
+snippet dict-comp
+alias dc
+abbr dict comprehension
+  {${1:k}: ${2:v} for ${1:k}, ${2:v} in ${3:items}}
+
+
+snippet set-comp
+alias sc
+abbr set comprehension
+  {${1:x} for ${1:x} in ${2:iterable} if ${3:condition}}
+
+
+snippet gen-comp
+alias gc
+abbr generator expression
+  (${1:x} for ${1:x} in ${2:iterable} if ${3:condition})
+
+
+snippet property
+alias prop
+abbr property decorator
+  @property
+  def ${1:name}(self):
+    return self._${1:name}
+  $0
+
+
+snippet setter
+abbr property setter
+  @${1:name}.setter
+  def ${1:name}(self, value):
+    self._${1:name} = value
+  $0
+
+
+snippet staticmethod
+alias sm
+abbr static method
+  @staticmethod
+  def ${1:name}(${2}):
+    ${3:pass}
+    $0
+
+
+snippet classmethod
+alias cm
+abbr class method
+  @classmethod
+  def ${1:name}(cls${2:, args}):
+    ${3:pass}
+    $0
+
+
+snippet dataclass
+alias dc
+abbr dataclass
+  from dataclasses import dataclass
+
+  @dataclass
+  class ${1:ClassName}:
+    ${2:field}: ${3:str}
+    $0
+
+
+snippet pdb
+abbr import pdb breakpoint
+  import pdb; pdb.set_trace()
+
+
+snippet breakpoint
+alias bp
+abbr breakpoint
+  breakpoint()
+
+
+snippet print-debug
+alias pd
+abbr print debug
+  print(f"DEBUG: ${1:var}={${1:var}}")
+  $0
+
+
+snippet fstring
+alias f
+abbr f-string
+  f"${1:{${2:var}}}"
+
+
+snippet docstring
+alias doc
+abbr docstring
+  """${1:description}
+
+  Args:
+    ${2:param}: ${3:description}
+
+  Returns:
+    ${4:description}
+  """
+  $0
+
+
+snippet pytest
+abbr pytest function
+  def test_${1:name}():
+    ${2:pass}
+    $0
+
+
+snippet pytest-fixture
+alias pf
+abbr pytest fixture
+  @pytest.fixture
+  def ${1:fixture_name}():
+    ${2:pass}
+    return ${3:value}
+    $0
+
+
+snippet pytest-parametrize
+alias pp
+abbr pytest parametrize
+  @pytest.mark.parametrize("${1:arg}", [
+    ${2:value},
+  ])
+  def test_${3:name}(${1:arg}):
+    ${4:pass}
+    $0
+
+
+snippet assert
+abbr assert statement
+  assert ${1:condition}, "${2:message}"
+  $0
+
+
+snippet raise
+abbr raise exception
+  raise ${1:ValueError}("${2:message}")
+  $0
+
+
+snippet logging
+alias log
+abbr logging setup
+  import logging
+
+  logging.basicConfig(level=logging.${1:INFO})
+  logger = logging.getLogger(__name__)
+  $0
+
+
+snippet logger
+abbr logger call
+  logger.${1:info}("${2:message}")
+  $0
+
+
+snippet context-manager
+alias ctx
+abbr context manager
+  class ${1:ContextManager}:
+    def __enter__(self):
+      ${2:pass}
+      return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+      ${3:pass}
+      $0
+
+
+snippet async-def
+alias adef
+abbr async function
+  async def ${1:name}(${2}):
+    ${3:pass}
+    $0
+
+
+snippet await
+abbr await expression
+  await ${1:coroutine}()
+  $0
+
+
+snippet async-with
+alias awith
+abbr async with
+  async with ${1:context} as ${2:var}:
+    ${3:pass}
+    $0
+
+
+snippet async-for
+alias afor
+abbr async for
+  async for ${1:item} in ${2:async_iterable}:
+    ${3:pass}
+    $0
+
+
+snippet typing
+abbr type hints
+  from typing import ${1:List, Dict, Optional}
+  $0
+
+
+snippet type-func
+alias tf
+abbr function with type hints
+  def ${1:name}(${2:arg}: ${3:str}) -> ${4:str}:
+    ${5:pass}
+    $0
+
+
+snippet dict
+abbr dictionary
+  ${1:d} = {
+    "${2:key}": ${3:value},
+  }
+  $0
+
+
+snippet list
+abbr list
+  ${1:l} = [
+    ${2:item},
+  ]
+  $0
+
+
+snippet tuple
+abbr tuple
+  ${1:t} = (
+    ${2:item},
+  )
+  $0
+
+
+snippet set
+abbr set
+  ${1:s} = {
+    ${2:item},
+  }
+  $0
+
+
+snippet get
+abbr dict.get
+  ${1:dict}.get("${2:key}", ${3:default})
+
+
+snippet items
+abbr dict.items
+  for ${1:k}, ${2:v} in ${3:dict}.items():
+    ${4:pass}
+    $0
+
+
+snippet keys
+abbr dict.keys
+  for ${1:k} in ${2:dict}.keys():
+    ${3:pass}
+    $0
+
+
+snippet values
+abbr dict.values
+  for ${1:v} in ${2:dict}.values():
+    ${3:pass}
+    $0
+
+
+snippet join
+abbr str.join
+  "${1:separator}".join(${2:iterable})
+
+
+snippet split
+abbr str.split
+  ${1:string}.split("${2:separator}")
+
+
+snippet strip
+abbr str.strip
+  ${1:string}.strip()
+
+
+snippet open
+abbr open file
+  with open("${1:file}", "${2:r}") as ${3:f}:
+    ${4:content} = ${3:f}.read()
+    $0
+
+
+snippet json-load
+alias jl
+abbr json.load
+  import json
+
+  with open("${1:file}") as f:
+    ${2:data} = json.load(f)
+    $0
+
+
+snippet json-loads
+alias jls
+abbr json.loads
+  import json
+
+  ${1:data} = json.loads(${2:string})
+  $0
+
+
+snippet json-dump
+alias jd
+abbr json.dump
+  import json
+
+  with open("${1:file}", "w") as f:
+    json.dump(${2:data}, f, indent=${3:2})
+    $0
+
+
+snippet json-dumps
+alias jds
+abbr json.dumps
+  import json
+
+  ${1:string} = json.dumps(${2:data}, indent=${3:2})
+  $0
+
+
+snippet pathlib
+alias path
+abbr pathlib Path
+  from pathlib import Path
+
+  ${1:p} = Path("${2:path}")
+  $0
+
+
+snippet enumerate
+alias enum
+abbr enumerate
+  enumerate(${1:iterable}, start=${2:0})
+
+
+snippet zip
+abbr zip function
+  zip(${1:iter1}, ${2:iter2})
+
+
+snippet map
+abbr map function
+  map(${1:func}, ${2:iterable})
+
+
+snippet filter
+abbr filter function
+  filter(${1:func}, ${2:iterable})
+
+
+snippet sorted
+abbr sorted function
+  sorted(${1:iterable}, key=lambda ${2:x}: ${3:x})
+
+
+snippet any
+abbr any function
+  any(${1:iterable})
+
+
+snippet all
+abbr all function
+  all(${1:iterable})
+
+
+snippet range
+abbr range function
+  range(${1:start}, ${2:stop}, ${3:step})
+
+
+snippet super
+abbr super call
+  super().__init__(${1})
+  $0
+
+
+snippet repr
+abbr __repr__ method
+  def __repr__(self):
+    return f"${1:ClassName}(${2})"
+    $0
+
+
+snippet str
+abbr __str__ method
+  def __str__(self):
+    return "${1}"
+    $0
+
+
+snippet len
+abbr __len__ method
+  def __len__(self):
+    return ${1:0}
+    $0
+
+
+snippet iter
+abbr __iter__ method
+  def __iter__(self):
+    return ${1:iter(self.items)}
+    $0
+
+
+snippet getitem
+abbr __getitem__ method
+  def __getitem__(self, ${1:key}):
+    return ${2:self.items[key]}
+    $0
+
+
+snippet setitem
+abbr __setitem__ method
+  def __setitem__(self, ${1:key}, ${2:value}):
+    ${3:self.items[key] = value}
+    $0
+
+
+snippet enter-exit
+abbr __enter__ and __exit__
+  def __enter__(self):
+    ${1:pass}
+    return self
+
+  def __exit__(self, exc_type, exc_val, exc_tb):
+    ${2:pass}
+    $0
