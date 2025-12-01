@@ -81,3 +81,876 @@ abbr if err != nil with fmt.Errorf
   if err != nil {
     return fmt.Errorf("%w", ${1:err})
   }
+
+
+snippet table-test
+alias tt
+abbr table driven test
+  var tests = []struct {
+    name string
+    expected string
+    given string
+  }{
+    {"${2}", "${3}", "${4}",},
+  }
+  for _, tt := range tests {
+    tt := tt
+    t.Run(tt.name, func(t *testing.T){
+      actual := ${1:Function}(tt.given)
+      if actual != tt.expected {
+        t.Errorf("given(%s): expected %s, actual %s", tt.given, tt.expected, actual)
+      }
+    })
+  }
+
+
+snippet struct
+alias st
+abbr type struct
+  type ${1:Type} struct {
+    $0
+  }
+
+
+snippet http-handler
+alias hf
+abbr http.HandlerFunc
+  func ${1:handler}(w http.ResponseWriter, r *http.Request) {
+    ${0:fmt.Fprintf(w, "hello world")}
+  }
+
+
+snippet err-handle
+alias errh
+abbr if err != nil return
+  if err != nil {
+    $1
+    return
+  }
+  $0
+
+
+snippet benchmark
+alias bf
+abbr benchmark function
+  func Benchmark$1(b *testing.B) {
+    for ${2:i} := 0; ${2:i} < b.N; ${2:i}++ {
+      $0
+    }
+  }
+
+
+snippet map-type
+alias map
+abbr map type
+  map[${1:keytype}]${2:valtype}
+
+
+snippet append-assign
+alias ap=
+abbr slice = append(slice, value)
+  ${1:slice} = append($1, ${0:value})
+
+
+snippet example
+abbr example function
+  func Example${1:Method}() {
+    $0
+    // Output:
+  }
+
+
+snippet package-doc
+abbr package declaration with doc
+  // Package $1 provides ...
+  package ${1:main}
+
+
+snippet fmt-println
+alias fn
+alias pl
+abbr fmt.Println
+  fmt.Println("${1}")
+
+
+snippet table-test-advanced
+alias tdt
+abbr advanced table driven test
+  func Test$1(t *testing.T) {
+    testCases := []struct {
+      desc	string
+      $2
+    }{
+      {
+        desc: "$3",
+        $4
+      },
+    }
+    for _, tC := range testCases {
+      t.Run(tC.desc, func(t *testing.T) {
+        $0
+      })
+    }
+  }
+
+
+snippet var-init
+alias vr
+abbr variable initialization
+  var ${1:t} ${0:string}
+
+
+snippet log-printf
+alias lf
+abbr log.Printf
+  log.Printf("${1} = %+v\\n", $1)
+
+
+snippet for-range
+alias forr
+abbr for range
+  for ${2:k}, ${3:v} := range ${1} {
+    $0
+  }
+
+
+snippet main
+abbr main function
+  func main() {
+    $0
+  }
+
+
+snippet panic
+alias pn
+abbr panic
+  panic("${0:msg}")
+
+
+snippet map-simple
+alias mp
+abbr map string int
+  map[${1:string}]${0:int}
+
+
+snippet for-i
+alias fori
+abbr for loop
+  for ${1:i} := ${2:0}; $1 < ${3:count}; $1${4:++} {
+    $0
+  }
+
+
+snippet fmt-sprintf
+alias ps
+abbr fmt.Sprintf
+  fmt.Sprintf("%${1:s}", ${2:var})
+
+
+snippet if-simple
+alias if
+abbr if statement
+  if ${1:condition} {
+    $0
+  }
+
+
+snippet for-select
+alias forsel
+abbr for select
+  for {
+    select {
+      case ${2:${1:result} := }<- ${3:channel}:
+        $0
+    }
+  }
+
+
+snippet var-decl
+alias var
+abbr variable declaration
+  var ${1:name} ${2:type}
+
+
+snippet goroutine
+alias gof
+abbr goroutine
+  go func(${1}) {
+    ${3:/* TODO */}
+  }(${2})
+
+
+snippet select
+abbr select statement
+  select {
+  case ${1:v1} := <-${2:chan1}
+    $0
+  }
+
+
+snippet interface-empty
+alias in
+abbr empty interface
+  interface{}
+
+
+snippet test-log
+alias tlf
+abbr t.Logf
+  t.Logf("$1", ${2:var})
+
+
+snippet for-loop
+alias for
+abbr for loop
+  for ${1} {
+    $0
+  }
+
+
+snippet goroutine-anon
+alias go
+abbr goroutine anonymous
+  go func($1) {
+    $0
+  }($2)
+
+
+snippet if-else
+alias ife
+abbr if else
+  if $1 {
+    ${2}
+  } else {
+    $0
+  }
+
+
+snippet interface
+abbr interface declaration
+  type ${1:Interface} interface {
+    $0
+  }
+
+
+snippet import-multi
+alias import
+abbr import multiple
+  import (
+    "${1:package}"
+  )
+
+
+snippet err-test-fatal
+alias errt
+abbr error test fatal
+  if err != nil {
+    t.Fatal(err)
+  }
+  $0
+
+
+snippet const-iota
+alias iota
+abbr const with iota
+  const (
+    ${1:NAME} ${2:Type} = iota
+    $0
+  )
+
+
+snippet interface-type
+alias tyi
+abbr type interface
+  type ${1:name} interface {
+    $0
+  }
+
+
+snippet err-return
+alias ir
+abbr if err return
+  if err != nil {
+    return ${1:nil}, ${2:err}
+  }
+
+
+snippet main-func
+alias fmain
+abbr main function
+  func main() {
+    $1
+  }
+
+
+snippet append
+alias ap
+abbr append
+  append(${1:slice}, ${0:value})
+
+
+snippet err-log-fatal
+alias errl
+abbr error log fatal
+  if err != nil {
+    log.Fatal(err)
+  }
+
+
+snippet switch
+abbr switch statement
+  switch ${1:expression} {
+  case ${2:condition}:
+    $0
+  }
+
+
+snippet short-var
+alias :
+abbr short variable declaration
+  ${1:name} := ${0:value}
+
+
+snippet deep-equal
+alias eq
+abbr deep equal test
+  if !reflect.DeepEqual(${1:expected}, ${2:actual}) {
+    _, file, line, _ := runtime.Caller(0)
+    fmt.Printf("%s:%d:\\n\\n\\texp: %#v\\n\\n\\tgot: %#v\\n\\n", filepath.Base(file), line, $1, $2)
+    t.FailNow()
+  }
+
+
+snippet err-assign
+alias ife
+abbr if err := ... err != nil
+  if err := ${1:condition}; err != nil {
+    $0
+  }
+
+
+snippet err-return-nil
+alias errn,
+abbr error return nil err
+  if err != nil {
+    return ${1:nil}, err
+  }
+  $0
+
+
+snippet import-block
+alias ims
+abbr import block
+  import (
+    "${1:package}"
+  )
+
+
+snippet case
+alias cs
+abbr case clause
+  case ${1:condition}:$0
+
+
+snippet err-return-simple
+alias errn
+abbr error return
+  if err != nil {
+    return err
+  }
+  $0
+
+
+snippet method
+alias fum
+alias meth
+abbr method declaration
+  func (${1:receiver} ${2:type}) ${3:method}($4) $5 {
+    $0
+  }
+
+
+snippet err-wrap
+alias errnw
+abbr error return wrap
+  if err != nil {
+    return errors.Wrap(err, "${1:message}")
+  }
+  $0
+
+
+snippet json-tag
+alias json
+abbr json struct tag
+  `json:"$1"`
+
+
+snippet test-table-func
+alias testt
+abbr table test function
+  func Test${1:name}(t *testing.T) {
+    tests := []struct {
+      name string
+    }{
+      {
+        name: "${2:test name}",
+      },
+    }
+
+    for _, test := range tests {
+      t.Run(test.name, func(t *testing.T) {
+        $0
+      })
+    }
+  }
+
+
+snippet test-func
+alias test
+abbr test function
+  func Test${1:Function}(t *testing.T) {
+    $0
+  }
+
+
+snippet const-block
+alias cons
+abbr const block
+  const (
+    ${1:NAME} ${2:Type} = ${3:value}
+    $0
+  )
+
+
+snippet var-typed
+alias var
+abbr var with type
+  var ${1:x} ${2:Type}${3: = ${0:value}}
+
+
+snippet defer-recover
+alias defr
+abbr defer recover
+  defer func() {
+    if err := recover(); err != nil {
+      $0
+    }
+  }()
+
+
+snippet package-main
+alias pk
+abbr package main
+  package ${1:main}
+  $0
+
+
+snippet http-handler-method
+alias fumh
+abbr http handler method
+  func (${1:receiver} ${2:type}) ${3:funcName}(${4:w} http.ResponseWriter, ${5:r} *http.Request) {
+    $0
+  }
+
+
+snippet test-main
+alias tm
+abbr test main
+  func TestMain(m *testing.M) {
+    $1
+
+    os.Exit(m.Run())
+  }
+
+
+snippet fallthrough
+alias ft
+abbr fallthrough
+  fallthrough
+
+
+snippet chan-type
+alias ch
+abbr channel type
+  chan ${0:int}
+
+
+snippet short-var-simple
+alias v
+abbr shorthand variable
+  ${1} := ${2}
+
+
+snippet goroutine-func
+alias gf
+abbr goroutine function
+  go ${1:func}($0)
+
+
+snippet else
+alias el
+abbr else branch
+  else {
+    $0
+  }
+
+
+snippet err-fmt-errorf
+alias errwr
+abbr error with fmt.Errorf
+  if ${1}err != nil {
+    return fmt.Errorf("${2} %w", err)
+  }
+
+
+snippet t-run
+alias tr
+abbr t.Run
+  t.Run("${0}", func(t *testing.T){
+
+  })
+
+
+snippet defer-func
+alias def
+abbr defer function
+  defer func() {
+    $0
+  }()
+
+
+snippet defer-simple
+alias df
+abbr defer statement
+  defer ${1:func}($0)
+
+
+snippet make
+abbr make statement
+  make(${1:type}, ${2:0})
+
+
+snippet xml-tag
+alias xml
+abbr xml struct tag
+  `xml:"$1"`
+
+
+snippet if-not-ok
+alias ok
+abbr if !ok
+  if !ok {
+    $0
+  }
+
+
+snippet log-var
+alias lv
+abbr log variable content
+  log.Printf("${1:var}: %#+v\\n", ${1:var})
+
+
+snippet test-log-var
+alias tlv
+abbr t.Logf variable content
+  t.Logf("${1:var}: %#+v\\n", ${1:var})
+
+
+snippet http-serve
+alias sv
+abbr http.Serve
+  http.Serve("${1::8080}", ${2:nil})
+
+
+snippet http-listen
+alias las
+abbr http.ListenAndServe
+  http.ListenAndServe("${1::8080}", ${2:nil})
+
+
+snippet package-simple
+alias pa
+abbr package
+  package ${1:main}
+
+
+snippet struct-type
+alias tys
+abbr type struct declaration
+  type ${1:name} struct {
+    $0
+  }
+
+
+snippet map-decl
+alias map
+abbr map declaration
+  map[${1:type}]${2:type}
+
+
+snippet func-type
+alias tyf
+abbr type function
+  type ${1:name} func($3) $4
+
+
+snippet sort-impl
+alias sort
+abbr sort implementation
+  type ${1:SortBy} []${2:Type}
+
+  func (a $1) Len() int           { return len(a) }
+  func (a $1) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+  func (a $1) Less(i, j int) bool { ${3:return a[i] < a[j]} }
+
+
+snippet func-decl
+alias func
+alias fn
+abbr function declaration
+  func ${1:fname}(${2}) ${3:int }{
+    ${0:return }
+  }
+
+
+snippet chan-decl
+alias ch
+abbr channel declaration
+  chan ${1:type}
+
+
+snippet test-log-simple
+alias tl
+abbr t.Log
+  t.Log("$1")
+
+
+snippet switch-full
+alias sw
+abbr switch statement
+  switch ${1:var} {
+  case ${2:value1}:
+    ${3}
+  case ${4:value2}:
+    ${5}
+  default:
+    $0
+  }
+
+
+snippet continue
+alias cn
+abbr continue
+  continue
+
+
+snippet case-simple
+alias cs
+abbr case
+  case ${1:value}:
+    $0
+
+
+snippet new
+alias nw
+abbr new
+  new(${0:type})
+
+
+snippet http-handle-func
+alias hf
+abbr http.HandleFunc
+  ${1:http}.HandleFunc("${2:/}", ${3:handler})
+
+
+snippet fmt-printf-func
+alias ff
+abbr fmt.Printf
+  fmt.Printf("$1", ${2:var})
+
+
+snippet http-redirect
+alias rd
+abbr http.Redirect
+  http.Redirect(${1:w}, ${2:r}, "${3:/}", ${4:http.StatusFound})
+
+
+snippet http-response
+alias wr
+abbr http ResponseWriter Request
+  ${1:w} http.ResponseWriter, ${2:r} *http.Request
+
+
+snippet const-single
+alias con
+abbr const single
+  const ${1:NAME} ${2:Type} = ${0:0}
+
+
+snippet true
+alias t
+abbr true
+  true
+
+
+snippet false
+alias f
+abbr false
+  false
+
+
+snippet import-single
+alias im
+abbr single import
+  import "${1:package}"
+
+
+snippet vars-block
+alias vars
+abbr variables block
+  var (
+    ${1:name} ${2:type} = ${3:value}
+  )
+
+
+snippet pkg-main-full
+alias pkgm
+abbr package main with main func
+  package main
+
+  func main() {
+    $0
+  }
+
+
+snippet range-keyword
+alias rn
+abbr range
+  range ${0}
+
+
+snippet example-func
+alias ef
+abbr example function
+  func Example$1() {
+    $2
+    //Output:
+    $3
+  }
+
+
+snippet test-func-simple
+alias tf
+abbr test function
+  func Test$1(t *testing.T) {
+    $0
+  }
+
+
+snippet select-stmt
+alias sel
+abbr select statement
+  select {
+  case ${1:condition}:
+    $0
+  }
+
+
+snippet if-map-ok
+alias om
+abbr if key in map
+  if ${1:value}, ok := ${2:map}[${3:key}]; ok {
+    $4
+  }
+
+
+snippet hello-web
+alias helloweb
+abbr hello world web app
+  package main
+
+  import (
+    "fmt"
+    "net/http"
+    "time"
+  )
+
+  func greet(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "Hello World! %s", time.Now())
+  }
+
+  func main() {
+    http.HandleFunc("/", greet)
+    http.ListenAndServe(":8080", nil)
+  }
+
+
+snippet http-error
+alias herr
+abbr http.Error
+  http.Error(${1:w}, ${2:err}.Error(), ${3:http.StatusInternalServerError})
+
+
+snippet const-iota-multi
+alias co
+abbr constants with iota
+  const (
+    ${1:NAME1} = iota
+    ${0:NAME2}
+  )
+
+
+snippet break
+alias br
+abbr break
+  break
+
+
+snippet errors-wrap
+alias ew
+abbr errors.Wrap
+  errors.Wrap(${1:err}, "${2:message}")
+
+
+snippet errors-wrapf
+alias ewf
+abbr errors.Wrapf
+  errors.Wrapf(${1:err}, "${2:message %v}", ${3:args...})
+
+
+snippet init-func
+alias finit
+abbr init function
+  func init() {
+    $1
+  }
+
+
+snippet byte
+alias bt
+abbr byte
+  byte
+
+
+snippet float32
+alias f3
+abbr float32
+  float32
+
+
+snippet float64
+alias f6
+abbr float64
+  float64
+
+
+snippet string
+alias sr
+abbr string
+  string
+
+
+snippet result
+alias rs
+abbr result
+  result
