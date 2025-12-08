@@ -26,11 +26,9 @@ abbr module create
 snippet module-fn
 alias Mfn
 abbr module function
-  M.${1:fnName} = function($2)
+  function M.${1:fnName}($2)
     $3
   end
-
-  $0
 
 
 snippet require-mod
@@ -55,6 +53,11 @@ abbr function
     ${3}
   end
   $0
+
+snippet inline-func
+alias fni
+abbr function in line
+  function(${1}) ${2} end
 
 
 snippet local-func
@@ -254,7 +257,7 @@ abbr for loop with pairs
 
 snippet lazyplug
 abbr add plugin
-  { 
+  {
     '${1}',
     enabled = true,
     opts = {},
@@ -753,3 +756,49 @@ abbr local function
   local ${1:name} = function($2)
     ${0}
   end
+
+# luadoc
+snippet luadoc-param
+alias @param
+alias ---@param
+abbr @param
+  ---@param ${1:name} ${2:type} ${3:Parameter description.}$0
+
+snippet luadoc-description
+alias lddesc
+alias ---@description
+abbr @description
+  ---@description ${1:text}$0
+
+snippet luadoc-copyright
+alias ldcpy
+alias ---@copyright
+abbr @copyright
+  ---@copyright ${1:text.}$0
+
+snippet luadoc-field
+alias ldfield
+alias ---@field
+abbr @field
+  ---@field ${1:description.}$0
+
+snippet luadoc-name
+alias ldname
+alias @name
+alias ---@name
+abbr @name
+  ---@name ${1:text}$0
+
+snippet luadoc-class
+alias ldclass
+alias @class
+alias ---@class
+abbr @class
+  ---@class ${1:name}$0
+
+snippet luadoc-return
+alias ldret
+alias @return
+alias ---@return
+abbr @return
+  ---@return ${1:type} ${2:desc}$0
